@@ -1,0 +1,6 @@
+a = int(input())
+b = int(input())
+print(a * (b % 10))
+print(a * int((b * 0.1) % 10))
+print(a * int((b * 0.01)))
+print(a * b)
