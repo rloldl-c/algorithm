@@ -9,8 +9,6 @@ for i in range(test):
 
 for i in range(test):
     arr[i] = arr[i] / max * 100
-
-for i in range(test):
     sum += arr[i]
 
 print(sum/test)
