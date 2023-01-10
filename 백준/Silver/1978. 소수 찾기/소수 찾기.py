@@ -7,7 +7,7 @@ cnt = 0
 for i in range(test):
     isPrime = True
     if num[i] == 1:
-        isPrime - False
+        isPrime = False
         continue
 
     for k in range(2, num[i]):
