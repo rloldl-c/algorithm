@@ -1,14 +1,17 @@
 s = input()
-res = 0
+start = 0
+end = len(s) - 1
+res = True
 
-if len(s) == 1:
-    res = 1
-
-for i in range(len(s)//2):
-    if s[i] != s[len(s)-1-i]:
-        res = 0
+while True:
+    if s[start] != s[end]:
+        res = False
         break
-    else:
-        res = 1
 
-print(res)
+    start += 1
+    end -= 1
+
+    if start > end:
+        break
+
+print(1 if res else 0)
