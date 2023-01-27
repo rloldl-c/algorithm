@@ -1,15 +1,12 @@
-arr = [0] * 10
-cnt = 0
+import sys
+input = sys.stdin.readline
 
-for i in range(len(arr)):
-    arr[i] = int(input()) % 42
+numbers = {}
 
-for i in range(len(arr)):
-    bool = False
-    for j in range(i, len(arr)-1):
-        if arr[i] == arr[j+1]:
-            bool = True
-            break
-    if bool == False:
-        cnt += 1
-print(cnt)
+for _ in range(10):
+    n = int(input()) % 42
+
+    if n not in numbers:
+        numbers[n] = 1
+
+print(len(numbers))
