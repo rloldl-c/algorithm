@@ -3,11 +3,12 @@ import sys
 n, m = map(int, input().split())
 
 s_list = []
-test_list = []
 cnt = 0
 
 for _ in range(n):
     s_list.append(input().strip())
+
+s_list = set(s_list)
 
 for _ in range(m):
     s = input().strip()
@@ -16,3 +17,4 @@ for _ in range(m):
         cnt += 1
 
 print(cnt)
+
