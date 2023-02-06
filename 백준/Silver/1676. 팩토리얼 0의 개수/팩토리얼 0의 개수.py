@@ -2,23 +2,17 @@ import sys
 input = sys.stdin.readline
 
 n = int(input())
+num = 1
+for i in range(2, n+1):
+    num *= i
 
-if n == 0:
-    print(0)
-else:
-    numbers = [0] * (n+1)
-    numbers[1] = 1
+cnt = 0
+reverse_n = str(num)[::-1]
 
-    for i in range(2, n+1):
-        numbers[i] = numbers[i-1] * i
+for i in reverse_n:
+    if i == "0":
+        cnt += 1
+    else:
+        break
 
-    cnt = 0
-    reverse_n = str(numbers[n])[::-1]
-
-    for i in reverse_n:
-        if i == "0":
-            cnt += 1
-        else:
-            break
-
-    print(cnt)
+print(cnt)
