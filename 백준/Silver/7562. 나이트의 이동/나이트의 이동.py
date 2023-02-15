@@ -2,11 +2,16 @@ import sys
 from collections import deque
 input = sys.stdin.readline
 
+
 def bfs(x, y):
+    que = deque()
     que.append((x, y))
 
     while que:
         x, y = que.popleft()
+        if x == to_x and y == to_y:
+            break
+
         visited[x][y] = True
 
         for i in range(8):
@@ -31,11 +36,8 @@ for _ in range(test):
     n = int(input())
     arr = [[0] * n for _ in range(n)]
     visited = [[False] * n for _ in range(n)]
-    
     x, y = map(int, input().split())
     to_x, to_y = map(int, input().split())
-    
-    que = deque()
     
     bfs(x, y)
 
