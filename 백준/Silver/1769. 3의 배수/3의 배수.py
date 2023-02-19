@@ -10,15 +10,11 @@ while True:
     if len(n) != 1:
         cnt += 1
 
-    for i in n:
-        tmp += int(i)
+    n = str(sum(map(int, n)))
 
-    if tmp // 10 == 0:
-        ans = tmp
+    if len(n) == 1:
+        ans = n
         break
-    else:
-        n = str(tmp)
-        tmp = 0
 
 print(cnt)
-print("YES" if tmp % 3 == 0 else "NO")
+print("YES" if int(n) % 3 == 0 else "NO")
