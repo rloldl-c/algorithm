@@ -8,6 +8,7 @@ def bfs(x, y, cnt, apple):
 
     if apple >= 2 and cnt <= 3:
         res = True
+        return res
 
     for dx, dy in dxy:
         nx = x + dx
