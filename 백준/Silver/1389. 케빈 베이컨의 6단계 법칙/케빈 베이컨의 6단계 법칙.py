@@ -1,36 +1,42 @@
 import sys
+from collections import deque
 input = sys.stdin.readline
 
+def bfs(start):
+    visited = [-1 for _ in range(n+1)]
+    que = deque()
+    que.append(start)
+    visited[start] = 0
+
+    while que:
+        now = que.popleft()
+
+        for nd in graph[now]:
+            if visited[nd] != -1:
+                continue
+
+            visited[nd] = visited[now] + 1
+            que.append(nd)
+
+    visited[0] = 0
+    return sum(visited)
+
 n, m = map(int, input().split())
-INF = int(1e9)
-graph = [[INF] * (n+1) for _ in range(n+1)]
+graph = [[] for _ in range(n+1)]
+ans = [0] * (n+1)
 
-for i in range(1, n+1):
-    for j in range(1, n+1):
-        if i == j:
-            graph[i][j] = 0
-
-for i in range(m):
+for _ in range(m):
     a, b = map(int, input().split())
-    graph[a][b] = 1
-    graph[b][a] = 1
+    graph[a].append(b)
+    graph[b].append(a)
 
-for k in range(1, n+1):
-    for i in range(1, n+1):
-        for j in range(1, n+1):
-            graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
-
-min_ = 0
-res = INF
-res_idx = 0
+min_ = int(1e9)
+min_idx = 0
 
 for i in range(1, n+1):
-    min_ = 0
-    for j in range(1, n+1):
-        min_ += graph[i][j]
+    tmp = bfs(i)
+    if tmp < min_:
+        min_ = tmp
+        min_idx = i
 
-    if min_ < res:
-        res = min_
-        res_idx = i
-
-print(res_idx)
+print(min_idx)
