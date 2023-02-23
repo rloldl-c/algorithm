@@ -21,13 +21,12 @@ def dfs(x, y):
 
 
 n = int(input())
-game = []
-dxy = [(0, 1), (1, 0)]
+game = [[] for _ in range(n)]
 visited = [[False] * n for _ in range(n)]
 win = False
 
-for _ in range(n):
-    game.append(list(map(int, input().split())))
+for i in range(n):
+    game[i] = list(map(int, input().split()))
 
 dfs(0, 0)
 
