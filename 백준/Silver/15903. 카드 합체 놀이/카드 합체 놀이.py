@@ -1,22 +1,15 @@
 import sys
 import heapq
-
 input = sys.stdin.readline
 
-num, combi = map(int, input().split())
-cards = []
-numbers = map(int, input().split())
-tmp = []
+n, m = map(int, input().split())
+card = list(map(int, input().split()))
+heapq.heapify(card)
 
-for n in numbers:
-    heapq.heappush(cards, n)
+for _ in range(m):
+    a = heapq.heappop(card)
+    b = heapq.heappop(card)
+    heapq.heappush(card, a+b)
+    heapq.heappush(card, a+b)
 
-for _ in range(combi):
-    a = heapq.heappop(cards)
-    b = heapq.heappop(cards)
-
-    heapq.heappush(cards, a + b)
-    heapq.heappush(cards, a + b)
-
-        
-print(sum(cards))
+print(sum(card))
