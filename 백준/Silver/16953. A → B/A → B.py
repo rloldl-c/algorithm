@@ -1,20 +1,20 @@
 import sys
 input = sys.stdin.readline
 
-a, b = input().split()
+a, b = map(int, input().split())
 cnt = 1
 
 while True:
-    if int(a) >= int(b):
+    if a >= b:
         break
 
-    if b[-1] == '1':
+    if b % 10 == 1:
         cnt += 1
-        b = b[:-1]
+        b //= 10
 
-    elif int(b) % 2 == 0:
+    elif b % 2 == 0:
         cnt += 1
-        b = str(int(b) // 2)
+        b //= 2
 
     else:
         break
