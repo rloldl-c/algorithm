@@ -1,30 +1,24 @@
 import sys
-from collections import deque
 input = sys.stdin.readline
 
 test = int(input())
 
 for t in range(test):
-    stu = deque(map(int, input().split()))
-    sorted_stu = []
+    stu = list(map(int, input().split()))
+    sorted_stu = [stu[1]]
     cnt = 0
+    m = stu[1]
     
-    stu.popleft()
-    m = stu.popleft()
-    sorted_stu.append(m)
-
-    while stu:
-        tmp = stu.popleft()
-
-        if m > tmp:
-            for i in range(len(sorted_stu)):
-                if sorted_stu[i] > tmp:
-                    cnt += len(sorted_stu) - i
-                    sorted_stu.append(tmp)
-                    sorted_stu = sorted(sorted_stu)
+    for i in range(2, 21):
+        if m > stu[i]:
+            for j in range(len(sorted_stu)):
+                if sorted_stu[j] > stu[i]:
+                    cnt += len(sorted_stu) - j
+                    sorted_stu.insert(j, stu[i])
                     break
+
         else:
-            sorted_stu.append(tmp)
-            m = tmp
+            sorted_stu.append(stu[i])
+            m = stu[i]
 
     print(t+1, cnt)
