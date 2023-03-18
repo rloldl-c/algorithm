@@ -1,14 +1,10 @@
 import sys
 input = sys.stdin.readline
 
-def sumNum(total, idx, cnt):
+def sumNum(total, idx, cnt, sum_):
     global ans
 
     if cnt == total:
-        sum_ = 0
-        for i in range(len(tmp)):
-            sum_ += num[tmp[i]]
-        
         if sum_ == s:
             ans += 1
 
@@ -17,8 +13,9 @@ def sumNum(total, idx, cnt):
     for i in range(idx, n):
         if i not in tmp:
             tmp.append(i)
-            sumNum(total, i, cnt+1)
+            sumNum(total, i, cnt+1, sum_+num[i])
             tmp.pop()
+
 
 
 n, s = map(int, input().split())
@@ -27,7 +24,7 @@ tmp = []
 ans = 0
 
 for i in range(1, n+1):
-    sumNum(i, 0, 0)
+    sumNum(i, 0, 0, 0)
 
 
 print(ans)
