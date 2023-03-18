@@ -12,7 +12,10 @@ def exp(cnt):
             elif order[i] == 2:
                 tmp *= number[i+1]
             else:
-                tmp = int(tmp/number[i+1])
+                if tmp < 0:
+                    tmp = (tmp * (-1) // number[i+1]) * (-1)
+                else:
+                    tmp //= number[i+1]
 
         res.append(tmp)
         return
