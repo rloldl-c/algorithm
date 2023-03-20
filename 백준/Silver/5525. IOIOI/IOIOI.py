@@ -4,25 +4,30 @@ input = sys.stdin.readline
 def check(start):
     flag = True
 
-    for i in range(pn):
-        if start % 2 == 0:
-            if (start+i) % 2 == 0:
-                if string[start+i] == "O":
-                    flag = False
-                    break
+    for i in range(pn//2+1):
+        if string[start+i] == string[start+pn-1-i]:
+            if start % 2 == 0:
+                if (start+i) % 2 == 0:
+                    if string[start+i] == "O":
+                        flag = False
+                        break
+                else:
+                    if string[start+i] == "I":
+                        flag = False
+                        break
             else:
-                if string[start+i] == "I":
-                    flag = False
-                    break
+                if (start+i) % 2 == 0:
+                    if string[start+i] == "I":
+                        flag = False
+                        break
+                else:
+                    if string[start+i] == "O":
+                        flag = False
+                        break
         else:
-            if (start+i) % 2 == 0:
-                if string[start+i] == "I":
-                    flag = False
-                    break
-            else:
-                if string[start+i] == "O":
-                    flag = False
-                    break
+            flag = False
+            break
+
     return flag
 
 
