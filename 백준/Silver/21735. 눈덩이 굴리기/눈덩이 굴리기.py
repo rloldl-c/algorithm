@@ -4,20 +4,16 @@ input = sys.stdin.readline
 def contest(idx, time, size):
     global ans
 
-    if time > m:
+    if idx > n-1 or time > m:
         return
 
     ans = max(ans, size)
     
     if idx+1 < n:
         contest(idx+1, time+1, size+snow[idx+1])
-    else:
-        return
 
     if idx+2 < n:
         contest(idx+2, time+1, size//2+snow[idx+2])
-    else:
-        return
 
 
 
