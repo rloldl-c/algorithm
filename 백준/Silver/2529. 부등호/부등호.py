@@ -1,34 +1,34 @@
 import sys
+from itertools import permutations
 input = sys.stdin.readline
+
+def check(left, right, sign):
+    if sign == '<':
+        return left < right
+    else:
+        return left > right
 
 def recursion(cnt):
     if cnt == (n+1):
-        flag = True
-        for i in range(n):
-            if sign[i] == '<' and tmp[i] > tmp[i+1]:
-                flag = False
-                break
-            if sign[i] == '>' and tmp[i] < tmp[i+1]:
-                flag = False
-                break
-        
-        if flag:
-            if ans[0] == 0:
-                ans[0] = ''.join(map(str, tmp))
-            else:
-                ans[1] = ''.join(map(str, tmp))
+        if ans[0] == 0:
+            ans[0] = ''.join(map(str, tmp))
+        else:
+            ans[1] = ''.join(map(str, tmp))
         return
 
     for i in range(10):
-        if i not in tmp:
-            tmp.append(i)
-            recursion(cnt+1)
-            tmp.pop()
+        if visited[i] == False:
+            if (cnt==0 or check(tmp[-1], i, sign[cnt-1])):
+                visited[i] = True
+                tmp.append(i)
+                recursion(cnt+1)
+                visited[i] = False
+                tmp.pop()
 
 
 n = int(input())
 sign = list(input().split())
-num = [i for i in range(0, 10)]
+visited = [False] * 10
 tmp = []
 ans = [0, 0]
 recursion(0)
