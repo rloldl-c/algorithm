@@ -1,65 +1,44 @@
 import sys
-from collections import deque
 input = sys.stdin.readline
-
-def bfs(x, y):
-    que = deque()
-    que.append(x, y)
-
-    while que:
-        x, y = que.popleft()
-        board[x][y] = '.'
-
-        for dx, dy in dxy:
-            nx = x + dx
-            ny = y + dy
-
-            if 0 <= nx < r and 0 <= ny < c:
-                board[nx][ny] = '.'
-
 
 r, c, n = map(int, input().split())
 board = [list(input().strip()) for _ in range(r)]
 dxy = [(1, 0), (0, -1), (-1, 0), (0, 1)]
-tmp = deque()
-time = 2
+ans = [['O' for _ in range(c)] for _ in range(r)]
 
-for i in range(r):
-    for j in range(c):
-        if board[i][j] == 'O':
-            board[i][j] = 3
+if n == 1:
+    ans = board
+elif n % 2 == 0:
+    ans = [['O' for _ in range(c)] for _ in range(r)]
+elif n % 4 == 1:
+    tmp = [['O' for _ in range(c)] for _ in range(r)]
+    for i in range(r):
+        for j in range(c):
+            if board[i][j] == 'O':
+                ans[i][j] = '.'
+                for dx, dy in dxy:
+                    if 0 <= i+dx < r and 0 <= j+dy < c:
+                        ans[i+dx][j+dy] = '.'
 
-while time < n+1:
+    for i in range(r):
+        for j in range(c):
+            if ans[i][j] == 'O':
+                tmp[i][j] = '.'
+                for dx, dy in dxy:
+                    if 0 <= i+dx < r and 0 <= j+dy < c:
+                        tmp[i+dx][j+dy] = '.'
 
-    if time % 2 != 0:
-        for i in range(r):
-            for j in range(c):
-                if board[i][j] == time:
-                    tmp.append((i, j))
-
-        while tmp:
-            x, y = tmp.popleft()
-            board[x][y] = '.'
-
-            for dx, dy in dxy:
-                nx = x + dx
-                ny = y + dy
-
-                if 0 <= nx < r and 0 <= ny < c:
-                    board[nx][ny] = '.'
-    else:
-        for i in range(r):
-            for j in range(c):
-                if board[i][j] == '.':
-                    board[i][j] = time + 3
-
-    time += 1
+    ans = tmp
     
+else:
+    for i in range(r):
+        for j in range(c):
+            if board[i][j] == 'O':
+                ans[i][j] = '.'
+                for dx, dy in dxy:
+                    if 0 <= i+dx < r and 0 <= j+dy < c:
+                        ans[i+dx][j+dy] = '.'
+
 
 for i in range(r):
-    for j in range(c):
-        if board[i][j] != '.':
-            print('O', end='')
-        else:
-            print('.', end='')
-    print()
+    print(''.join(ans[i]))
