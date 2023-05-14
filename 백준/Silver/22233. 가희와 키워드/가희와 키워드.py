@@ -9,8 +9,7 @@ for _ in range(n):
     memo[input().strip()] = 1
 
 for _ in range(m):
-    blog = input().split(',')
-    blog[-1] = blog[-1].strip()
+    blog = input().strip().split(',')
 
     for keyword in blog:
         if keyword in memo and memo[keyword] != 0:
