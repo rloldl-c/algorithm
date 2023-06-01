@@ -20,7 +20,7 @@ def check(stack, cnt):
             else:
                 if i == '}':
                     now_cnt += 1
-                    tmp.pop()
+                tmp.pop()
 
     if tmp:
         check(tmp, now_cnt)
