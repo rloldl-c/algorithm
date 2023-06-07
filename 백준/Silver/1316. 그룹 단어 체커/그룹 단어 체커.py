@@ -1,25 +1,26 @@
 import sys
+input = sys.stdin.readline
 
-test = int(input())
+n = int(input())
 cnt = 0
 
-for i in range(test):
-    word = sys.stdin.readline().strip()
-    check = False
-    char = {}
+for i in range(n):
+    word = input().strip()
+    check = []
+    is_group = True
+
     for j in range(len(word)):
-        if word[j] not in char:
-            check = True
-            char[word[j]] = 1
+        if word[j] not in check:
+            check.append(word[j])
         else:
-            check = False
-            if j-1 > -1:
-                if word[j-1] == word[j]:
-                    check = True
-                else:
-                    break
-        
-    if check == True:
+            if word[j] == word[j-1]:
+                continue
+            else:
+                is_group = False
+                break
+
+    if is_group:
         cnt += 1
 
 print(cnt)
+        
