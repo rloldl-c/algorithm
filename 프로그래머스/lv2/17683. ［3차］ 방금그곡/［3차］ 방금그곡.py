@@ -6,7 +6,7 @@ def time_convert(s):
 def sharp_convert(note):
     sharp = {"C#": "H", "D#": "I", "F#": "J", "G#": "K", "A#": "L"}
     for j in range(len(note)-1):
-        if j > len(note) - 1 or j + 1 > len(note) - 1:
+        if j + 1 > len(note) - 1:
             return note
 
         tmp = note[j]+note[j+1]
