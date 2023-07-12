@@ -1,50 +1,91 @@
-test = int(input())
+import java.util.*;
 
-for i in range(test):
-    sudoku = [0 for j in range(9)]
-    is_correct = True
-
-    for j in range(9):
-        sudoku[j] = list(map(int, input().split()))
-
-    for n in range(9):
-        check = [0 for j in range(9)]
-
-        for m in range(9):
-            check[sudoku[n][m]-1] = 1
-        
-        for j in range(9):
-            if check[j] == 0:
-                is_correct = False
-                break
-        
-    for n in range(9):
-        check = [0 for j in range(9)]
-
-        for m in range(9):
-            check[sudoku[m][n]-1] = 1
-        
-        for j in range(9):
-            if check[j] == 0:
-                is_correct = False
-                break
-        
-    for n in range(3):
-        n *= 3
-        check = [0 for j in range(9)]
-
-        for m in range(3):
-            m *= 3
-            for k in range(3):
-                for l in range(3):
-                    check[sudoku[m+k][n+l]-1] = 1
-
-            for j in range(9):
-                if check[j] == 0:
-                    is_correct = False
-                    break
-
-    if is_correct:
-        print(f"#{i+1} 1")
-    else:
-        print(f"#{i+1} 0")
+class Solution
+{
+	
+	public static void main(String args[]) throws Exception
+	{
+		
+		Scanner sc = new Scanner(System.in);
+		int T;
+		T=sc.nextInt();
+		
+		for(int test_case = 1; test_case <= T; test_case++)
+		{
+			int [][] sudoku = new int [9][9];
+			int res = 1;
+			
+			for(int i = 0; i < 9; i++) {
+				for(int j = 0; j < 9; j++) {
+					sudoku[i][j] = sc.nextInt();
+				}
+			}
+			
+			for(int i = 0; i < 9; i++) {
+				int [] check = new int [9];
+				for(int j = 0; j < 9; j++) {
+					int now = sudoku[i][j];
+					check[now-1] += 1;
+				}
+				
+				for(int j = 0; j < 9; j++) {
+					if(check[j] == 0) {
+						res = 0;
+						break;
+					}
+				}
+				
+				if(res == 0) {
+					break;
+				}
+			}
+			
+			if(res == 1) {
+				for(int i = 0; i < 9; i++) {
+					int [] check = new int [9];
+					for(int j = 0; j < 9; j++) {
+						int now = sudoku[j][i];
+//						System.out.println(j);
+						check[now-1] += 1;
+					}
+					
+					for(int j = 0; j < 9; j++) {
+						if (check[j] == 0) {
+							res = 0;
+							break;
+						}
+					}
+					
+					if (res == 0) {
+						break;
+					}
+				}
+				
+			}
+			
+			if(res == 1) {
+				for(int i = 0; i < 7; i+=3) {
+					for(int j = 0; j < 7; j+=3) {
+						int [] check = new int [9];
+						for(int m = 0; m < 3; m++) {
+							for(int n = 0; n < 3; n++) {
+								int now = sudoku[i+m][j+n];
+								check[now-1] += 1;
+							}
+						}
+						for(int k = 0; k < 9; k++) {
+							if(check[k] == 0) {
+								res = 0;
+								break;
+							}
+						}
+					}
+					
+				}
+			}
+			
+			System.out.println("#" + test_case + " " + res);
+			
+		}
+	}
+}
