@@ -1,36 +1,57 @@
-test = int(input())
+import java.util.*;
 
-for i in range(test):
-    n = int(input())
-    arr = [0 for j in range(n)]
+class Solution
+{	
+	public static int[][] rotation(int [][] arr) {
+		int[][] newArr = new int [arr.length][arr.length];
+		
+		for(int i = 0; i < arr.length; i++) {
+			for(int j = 0; j < arr.length; j++) {
+				newArr[i][j] = arr[arr.length-j-1][i];
+			}
+		}
 
-    for j in range(n):
-        arr[j] = list(map(int, input().split()))
-
-    arr_90 = [[0 for k in range(n)] for j in range(n)]
-    arr_180 = [[0 for k in range(n)] for j in range(n)]
-    arr_270 = [[0 for k in range(n)] for j in range(n)]
-
-    for k in range(n):
-        for l in range(n):
-            arr_90[k][l] = arr[n-1-l][k]
-
-    for k in range(n):
-        for l in range(n):
-            arr_180[k][l] = arr_90[n-1-l][k]
-
-    for k in range(n):
-        for l in range(n):
-            arr_270[k][l] = arr_180[n-1-l][k]
-
-    print(f"#{i+1}")
-    for k in range(n):
-        for l in range(n):
-            print(arr_90[k][l], end="")
-        print(end=" ")
-        for l in range(n):
-            print(arr_180[k][l], end="")
-        print(end=" ")
-        for l in range(n):
-            print(arr_270[k][l], end="")
-        print()    
+		return newArr;
+	}
+	
+	public static void main(String args[]) throws Exception
+	{
+		
+		Scanner sc = new Scanner(System.in);
+		int T;
+		T=sc.nextInt();
+		
+		for(int test_case = 1; test_case <= T; test_case++)
+		{
+			int N = sc.nextInt();
+			int[][] arr = new int [N][N];
+			
+			for(int i = 0; i < N; i++) {
+				for(int j = 0; j < N; j++) {
+					arr[i][j] = sc.nextInt();
+				}
+			}
+			
+			int[][] arr90 = rotation(arr);
+			int[][] arr180 = rotation(arr90);
+			int[][] arr270 = rotation(arr180);
+			
+			System.out.println("#" + test_case);
+			
+			for(int i = 0; i < N; i++) {
+				for(int j = 0; j < N; j++) {
+					System.out.print(arr90[i][j]);
+				}
+				System.out.print(" ");
+				for(int j = 0; j < N; j++) {
+					System.out.print(arr180[i][j]);
+				}
+				System.out.print(" ");
+				for(int j = 0; j < N; j++) {
+					System.out.print(arr270[i][j]);
+				}
+				System.out.println();
+			}
+		}
+	}
+}
