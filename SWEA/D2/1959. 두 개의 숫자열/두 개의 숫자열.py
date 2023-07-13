@@ -1,25 +1,53 @@
-test = int(input())
+import java.util.*;
 
-for i in range(test):
-    n, m = map(int, input().split())
-    if n < m:
-        short_idx = n
-        long_idx = m
-        short_arr = list(map(int, input().split()))
-        long_arr = list(map(int, input().split()))
-    else:
-        short_idx = m
-        long_idx = n
-        long_arr = list(map(int, input().split()))
-        short_arr = list(map(int, input().split()))
-
-    max_total = 0
-
-    for k in range(long_idx - short_idx + 1):
-        total = 0
-        for l in range(short_idx):
-            total += long_arr[l+k] * short_arr[l]
-
-        max_total = max(max_total, total)
-
-    print(f"#{i+1} {max_total}")
+class Solution
+{
+	public static int findMax(int [] longArray, int [] shortArray) {
+		int ans = 0;
+		
+		for(int i = 0; i < longArray.length - shortArray.length + 1; i++) {
+			int sum = 0;
+			for(int j = 0; j < shortArray.length; j++) {
+				sum += longArray[i+j] * shortArray[j];
+			}
+			
+			ans = Math.max(ans, sum);
+		}
+		
+		return ans;
+	}
+	
+	public static void main(String args[]) throws Exception
+	{
+		
+		Scanner sc = new Scanner(System.in);
+		int T;
+		T=sc.nextInt();
+		
+		for(int test_case = 1; test_case <= T; test_case++)
+		{
+			int N = sc.nextInt();
+			int M = sc.nextInt();
+			int [] A = new int [N];
+			int [] B = new int [M];
+			int ans = 0;
+			
+			for(int i = 0; i < N; i++) {
+				A[i] = sc.nextInt();
+			}
+			
+			for(int i = 0; i < M; i++) {
+				B[i] = sc.nextInt();
+			}
+			
+			if(N < M) {
+				ans = findMax(B, A);
+			} else {
+				ans = findMax(A, B);
+			}
+			
+			System.out.println("#" + test_case + " " + ans);
+			
+		}
+	}
+}
