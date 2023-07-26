@@ -13,14 +13,12 @@ public class Main {
 		int num = a * b * c;
 		int[] count = new int[10];
 		
-		while(num / 10 > 0) {
+		while(num > 0) {
 			int tmp = num % 10;
 			num /= 10;
 			count[tmp]++;
 		}
-		
-		count[num] ++;
-		
+
 		for(int n: count) {
 			output.append(n).append("\n");
 		}
