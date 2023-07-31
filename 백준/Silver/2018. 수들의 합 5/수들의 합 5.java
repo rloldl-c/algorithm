@@ -7,15 +7,17 @@ public class Main {
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		int N = Integer.parseInt(input.readLine());
+		int r = 1, l = 1;
+		int total = 0;
 		int ans = 0;
 		
-		for(int i = 1; i < N / 2 + 1; i++) {
-			int now = i+1;
-			int total = i;
-			
-			while(total < N) {
-				total += now;
-				now++;
+		while(r < N) {
+			if(total <= N) {
+				total += r;
+				r++;
+			} else if(total > N) {
+				total -= l;
+				l++;
 			}
 			
 			if(total == N) {
