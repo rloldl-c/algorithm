@@ -8,7 +8,6 @@ public class Main {
 	static StringBuilder output = new StringBuilder();
 
 	public static void main(String[] args) throws Exception {
-
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int[][] board = new int[19][19];
 		boolean flag = false;
