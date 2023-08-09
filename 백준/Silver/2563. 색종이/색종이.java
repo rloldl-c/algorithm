@@ -23,6 +23,7 @@ public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		int[][] paper = new int[101][101];
+		
 		int N = Integer.parseInt(input.readLine());
 		int ans = 0;
 		
@@ -33,20 +34,15 @@ public class Main {
 			
 			for(int nr = r; nr < r+10; nr++) {
 				for(int nc = c; nc < c+10; nc++) {
-					paper[nr][nc] = 1;
+					if(paper[nr][nc] == 0) {
+						ans++;						
+						paper[nr][nc] = 1;
+					}
 				}
 			}
 			
 		}
 
-		for(int r = 0; r < 100; r++) {
-			for(int c = 0; c < 100; c++) {
-				if(paper[r][c] == 1) {
-					ans++;
-				}
-			}
-		}
-		
 		System.out.println(ans);
 	}
 
