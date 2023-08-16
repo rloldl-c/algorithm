@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		N = Integer.parseInt(input.readLine());
 		nums = new int[N];
-		oper = new int[N-1];
+		oper = new int[4];
 		min = Integer.MAX_VALUE;
 		max = Integer.MIN_VALUE;
 		
@@ -23,62 +23,46 @@ public class Main {
 		int idx = 0;
 		// 0: 덧셈 1: 뺄셈 2: 곱셈 3: 나눗셈
 		for(int i = 0; i < 4; i++) {
-			int tmp = Integer.parseInt(tokens.nextToken());
-			
-			for(int j = 0; j < tmp; j++) {
-				oper[idx] = i;
-				idx++;
-			}
+			oper[i] = Integer.parseInt(tokens.nextToken());
 		}
 
-		per(0, new boolean[N-1], new int[N-1]);
+		calc(0, nums[0]);
 		
 		output.append(max).append("\n").append(min);
 		System.out.println(output);
 
 	}
 	
-	private static void per(int cnt, boolean[] visited, int[] order) {
-		if(cnt == N-1) {
-			calc(order);
-			return;
+	private static void calc(int idx, int res) {
+		if(idx == N-1) {
+			min = Math.min(min, res);
+			max = Math.max(max, res);
 		}
 		
-		for(int i = 0; i < N-1; i++) {
-			if(!visited[i]) {
-				order[cnt] = oper[i];
-				visited[i] = true;
-				per(cnt+1, visited, order);
-				visited[i] = false;
-			}
-		}
-	}
-	
-	private static void calc(int[] order) {
-		int tmp = nums[0];
+		idx++;
 		
-		for(int i = 0; i < N-1; i++) {
-			int left = nums[i+1];
-
-			// 더하기
-			if(order[i] == 0) {
-				tmp += left;
-			} else if(order[i] == 1) { // 뺄셈
-				tmp -= left;
-			} else if(order[i] == 2) { // 곱셈
-				tmp *= left;
-			} else {
-				if(tmp < 0) {
-					tmp *= (-1);
-					tmp /= left;
-					tmp *= (-1);
-				} else {
-					tmp /= left;
-				}
-			}
+		if(oper[0] > 0) {
+			oper[0]--;
+			calc(idx, res+nums[idx]);
+			oper[0]++;
 		}
 		
-		max = Math.max(max, tmp);
-		min = Math.min(min, tmp);
+		if(oper[1] > 0) {
+			oper[1]--;
+			calc(idx, res-nums[idx]);
+			oper[1]++;
+		}
+		
+		if(oper[2] > 0) {
+			oper[2]--;
+			calc(idx, res*nums[idx]);
+			oper[2]++;
+		}
+		
+		if(oper[3] > 0) {
+			oper[3]--;
+			calc(idx, res/nums[idx]);
+			oper[3]++;
+		}
 	}
 }
