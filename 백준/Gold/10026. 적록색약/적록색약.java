@@ -10,6 +10,7 @@
 * 적록색약이 보는 색 : R+G B
 * -> R+G / B로 구분하여 bfs 탐색
 */
+
 import java.io.*;
 import java.util.*;
 
@@ -17,14 +18,15 @@ public class Main {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringBuilder output = new StringBuilder();
 	static StringTokenizer tokens;
-	static int N, RGB, noRGB;
+	static int N, RGBcnt, noRGBcnt;
 	static int[][] deltas;
-	static char[][] map;
+	static char[][] RGBmap, noRGBmap;
 	static boolean[][] RGBvisited, noRGBvisited;
 	
 	public static void main(String[] args) throws IOException{
 		N = Integer.parseInt(input.readLine());
-		map = new char[N][N];
+		RGBmap = new char[N][N];
+		noRGBmap = new char[N][N];
 		deltas = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 		RGBvisited = new boolean[N][N];
 		noRGBvisited = new boolean[N][N];
@@ -32,28 +34,33 @@ public class Main {
 		for(int r = 0; r < N; r++) {
 			String s = input.readLine();
 			for(int c = 0; c < N; c++) {
-				map[r][c] = s.charAt(c);
+				RGBmap[r][c] = s.charAt(c);
+				noRGBmap[r][c] = s.charAt(c);
+				
+				if(noRGBmap[r][c] == 'G') {
+					noRGBmap[r][c] = 'R';
+				}
 			}
 		}
 		
 		for(int r = 0; r < N; r++) {
 			for(int c = 0; c < N; c++) {
 				if(!noRGBvisited[r][c]) {
-					noRGB++;
-					noRGBbfs(r, c, map[r][c]);
+					noRGBcnt++;
+					bfs(noRGBmap, noRGBvisited, r, c, noRGBmap[r][c]);
 				}
 				
 				if(!RGBvisited[r][c]) {
-					RGB++;
-					RGBbfs(r, c, map[r][c]);
+					RGBcnt++;
+					bfs(RGBmap, RGBvisited, r, c, RGBmap[r][c]);
 				}
 			}
 		}
 		
-		System.out.println(RGB + " " + noRGB);
+		System.out.println(RGBcnt + " " + noRGBcnt);
 	}
 	
-	private static void noRGBbfs(int r, int c, char color) {
+	private static void bfs(char[][] map, boolean[][] visited, int r, int c, char color) {
 		Deque<Pos> que = new ArrayDeque<>();
 		que.offer(new Pos(r, c));
 		
@@ -67,43 +74,9 @@ public class Main {
 				int nc = c + deltas[d][1];
 				
 				if(nr >= 0 && nr < N && nc >= 0 && nc < N) {
-					if(!noRGBvisited[nr][nc]) {
-						if(color == 'B' && map[nr][nc] == 'B') {
-							noRGBvisited[nr][nc] = true;
-							que.offer(new Pos(nr, nc));
-						} else if((color == 'G' || color == 'R') && (map[nr][nc] == 'G' || map[nr][nc] == 'R')) {
-							noRGBvisited[nr][nc] = true;
-							que.offer(new Pos(nr, nc));							
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	private static void RGBbfs(int r, int c, char color) {
-		Deque<Pos> que = new ArrayDeque<>();
-		que.offer(new Pos(r, c));
-		
-		while(!que.isEmpty()) {
-			Pos now = que.poll();
-			r = now.r;
-			c = now.c;
-			
-			for(int d = 0; d < deltas.length; d++) {
-				int nr = r + deltas[d][0];
-				int nc = c + deltas[d][1];
-				
-				if(nr >= 0 && nr < N && nc >= 0 && nc < N) {
-					if(!RGBvisited[nr][nc]) {
-						if(color == 'R' && map[nr][nc] == 'R') {
-							RGBvisited[nr][nc] = true;
-							que.offer(new Pos(nr, nc));
-						} else if(color == 'G' && map[nr][nc] == 'G') {
-							RGBvisited[nr][nc] = true;
-							que.offer(new Pos(nr, nc));
-						} else if(color == 'B' && map[nr][nc] == 'B') {
-							RGBvisited[nr][nc] = true;
+					if(!visited[nr][nc]) {
+						if(color == map[nr][nc]) {
+							visited[nr][nc] = true;
 							que.offer(new Pos(nr, nc));
 						}
 					}
