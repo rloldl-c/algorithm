@@ -20,15 +20,15 @@ public class Main {
 			price[i] = Integer.parseInt(tokens2.nextToken());
 		}
 		
-		int min = price[0];
-		int ans = price[0] * dist[0];
+		long min = price[0];
+		long ans = (long)price[0] * dist[0];
 		
 		for(int i = 1; i < N-1; i++) {
 			if(min > price[i]) {
 				min = price[i];
 			}
 			
-			ans += min * dist[i];
+			ans += (long)min * dist[i];
 		}
 		
 		System.out.println(ans);
