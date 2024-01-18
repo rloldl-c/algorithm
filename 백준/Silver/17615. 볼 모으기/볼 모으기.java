@@ -1,94 +1,78 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.StringTokenizer;
 
 public class Main {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-	static int N, ans;
-	static char[] balls;
 
 	public static void main(String[] args) throws IOException {
-		N = Integer.parseInt(input.readLine());
-		balls = new char[N];
+		int N = Integer.parseInt(input.readLine());
+        int ans = 0;
+		char[] balls = new char[N];
 		ans = Integer.MAX_VALUE;
 		
 		String tmp = input.readLine();
 		balls = tmp.toCharArray();
 		
-		int cnt = 0;
-		char[] rightRed = copy();
-		for(int i = N-1; i > 0; i--) {
-			if(rightRed[i] == 'B' && rightRed[i-1] == 'R') {
-				moveRight(rightRed, i-1);
-				cnt++;
+		int red = 0;
+		int blue = 0;
+		boolean prevRed = false;
+		boolean prevBlue = false;
+		
+		// 파란색 공 오른쪽으로 모으기	
+		for(int i = N-1; i >= 0; i--) {
+			if(!prevRed && balls[i] == 'R') {
+				prevRed = true;
+			}
+			
+			if(prevRed && balls[i] == 'B') {
+				blue++;
 			}
 		}
 		
-		ans = Integer.min(cnt, ans);
-		
-		char[] leftRed = copy();
-		cnt = 0;
-		for(int i = 0; i < N-1; i++) {
-			if(leftRed[i] == 'B' && leftRed[i+1] == 'R') {
-				moveLeft(leftRed, i+1);
-				cnt++;
+		// 빨간색 공 오른쪽으로 모으기
+		for(int i = N-1; i >= 0; i--) {
+			if(!prevBlue && balls[i] == 'B') {
+				prevBlue = true;
+			}
+			
+			if(prevBlue && balls[i] == 'R') {
+				red++;
 			}
 		}
 		
-		ans = Integer.min(cnt, ans);
+		ans = Integer.min(red, blue);
 		
-		char[] rightBlue = copy();
-		cnt = 0;
-		for(int i = N-1; i > 0; i--) {
-			if(rightBlue[i] == 'R' && rightBlue[i-1] == 'B') {
-				moveRight(rightBlue, i-1);
-				cnt++;
-			}
-		}
+		red = 0;
+		blue = 0;
+		prevRed = false;
+		prevBlue = false;
 		
-		ans = Integer.min(cnt, ans);
-		
-		char[] leftBlue = copy();
-		cnt = 0;
-		for(int i = 0; i < N-1; i++) {
-			if(leftBlue[i] == 'R' && leftBlue[i+1] == 'B') {
-				moveLeft(leftBlue, i+1);
-				cnt++;
-			}
-		}
-		
-		ans = Integer.min(cnt, ans);
-		
-		System.out.println(ans);
-
-	}
-	
-	static void moveRight(char[] ballArr, int start) {
-		for(int i = start; i < N-1; i++) {
-			if(ballArr[i] != ballArr[i+1]) {
-				char tmp = ballArr[i+1];
-				ballArr[i+1] = ballArr[i];
-				ballArr[i] = tmp;
-			}
-		}
-	}
-	
-	static void moveLeft(char[] ballArr, int start) {
-		for(int i = start; i > 0; i--) {
-			if(ballArr[i] != ballArr[i-1]) {
-				char tmp = ballArr[i-1];
-				ballArr[i-1] = ballArr[i];
-				ballArr[i] = tmp;
-			}
-		}
-	}
-	
-	static char[] copy() {
-		char[] res = new char[N];
+		// 파란색 공 왼쪽으로 모으기
 		for(int i = 0; i < N; i++) {
-			res[i] = balls[i];
+			if(!prevRed && balls[i] == 'R') {
+				prevRed = true;
+			}
+			
+			if(prevRed && balls[i] == 'B') {
+				blue++;
+			}
 		}
 		
-		return res;
+		// 빨간색 공 왼쪽으로 모으기
+		for(int i = 0; i < N; i++) {
+			if(!prevBlue && balls[i] == 'B') {
+				prevBlue = true;
+			}
+			
+			if(prevBlue && balls[i] == 'R') {
+				red++;
+			}
+		}
+
+		System.out.println(Integer.min(Integer.min(red, blue), ans));
 	}
 }
