@@ -1,101 +1,76 @@
-/**
- * @author 은비
- * @since 2023-08-29
- * @see https://www.acmicpc.net/problem/14500
- * @performance 
- * @category #dfs #완전탐색
- * @note
- * dfs 탐색으로 만들 수 있는 모든 모양 만들기
- * dfs 탐색만으로 만들 경우 ㅓㅏㅗㅜ 모양은 만들 수 없음
- * -> 이 모양은 주변 4칸 중에 3칸을 골라서 만드는 모양이므로 주위 4칸 중 3칸만 골라서 따로 계산해주고, 최대값 갱신하기
- */
-
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-	static StringBuilder output = new StringBuilder();
 	static StringTokenizer tokens;
-	static int N, M, max;
-	static int[][] map, deltas;
-	static boolean[][] visited;
+	static int N, M, ans;
+	static int[][] map;
+	static int[][] deltas = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
 	public static void main(String[] args) throws IOException {
 		tokens = new StringTokenizer(input.readLine());
 		N = Integer.parseInt(tokens.nextToken());
 		M = Integer.parseInt(tokens.nextToken());
 		map = new int[N][M];
-		visited = new boolean[N][M];
-		deltas = new int[][] {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+		boolean[][] visited = new boolean[N][M];
 		
-		for(int r = 0; r < N; r++) {
+		for(int i = 0; i < N; i++) {
 			tokens = new StringTokenizer(input.readLine());
-			for(int c = 0; c < M; c++) {
-				map[r][c] = Integer.parseInt(tokens.nextToken());
-			}
-		}
-
-		for(int r = 0; r < N; r++) {
-			for(int c = 0; c < M; c++) {
-				visited[r][c] = true;
-				dfs(r, c, visited, 0, 0);
-				around(r, c);
-				visited[r][c] = false;
+			for(int j = 0; j < M; j++) {
+				map[i][j] = Integer.parseInt(tokens.nextToken());
 			}
 		}
 		
-		System.out.println(max);
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < M; j++) {
+				visited[i][j] = true;
+				dfs(i, j, visited, 0, 0);
+				dfs2(i, j);
+				visited[i][j] = false;
+			}
+		}
+		
+		System.out.println(ans);
 	}
 	
-	static void dfs(int r, int c, boolean[][] visited, int depth, int score) {
+	static void dfs(int r, int c, boolean[][] visited, int depth, int total) {
 		if(depth == 4) {
-			max = Math.max(max, score);
+			ans = Math.max(ans, total);
 			return;
 		}
 		
-		int nr = r;
-		int nc = c;
 		visited[r][c] = true;
 		
-		for(int d = 0; d < deltas.length; d++) {
-			nr = r + deltas[d][0];
-			nc = c + deltas[d][1];
+		for(int i = 0; i < 4; i++) {
+			int nr = r + deltas[i][0];
+			int nc = c + deltas[i][1];
 			
-			if(nr >= 0 && nr < N && nc >= 0 && nc < M && !visited[nr][nc]) {
-				visited[nr][nc] = true;
-				dfs(nr, nc, visited, depth+1, score+map[nr][nc]);
-				visited[nr][nc] = false;
+			if(nr < 0 || nr >= N || nc < 0 || nc >= M || visited[nr][nc]) {
+				continue;
 			}
+			
+			visited[nr][nc] = true;
+			dfs(nr, nc, visited, depth+1, total+map[nr][nc]);
+			visited[nr][nc] = false;
 		}
 	}
 	
-	static void around(int r, int c) {
-		
-		for(int i = 0; i < 4; i++) {
-			int score = map[r][c];
-			for(int d = 0; d < 3; d++) {
-				int nr = r + deltas[(d+i)%4][0];
-				int nc = c + deltas[(d+i)%4][1];
+	// ㅓ, ㅏ, ㅗ, ㅜ 모양은 dfs로 만들 수 없음
+	static void dfs2(int r, int c) {
+		for(int i = 1; i <= 4; i++) {
+			int total = map[r][c];
+			
+			for(int j = 0; j < 3; j++) {
+				int nr = r + deltas[(i+j) % 4][0];
+				int nc = c + deltas[(i+j) % 4][1];
 				
 				if(nr >= 0 && nr < N && nc >= 0 && nc < M) {
-					score += map[nr][nc];
+					total += map[nr][nc];
 				}
-				max = Math.max(max, score);
 			}
-
+			
+			ans = Math.max(total, ans);
 		}
 	}
-	
-	static void swap(int a, int b, int[] arr) {
-		int tmp = arr[a];
-		arr[a] = arr[b];
-		arr[b] = tmp;
-	}
-	
-	private static String src = "4 10\r\n" + 
-			"1 2 1 2 1 2 1 2 1 2\r\n" + 
-			"2 1 2 1 2 1 2 1 2 1\r\n" + 
-			"1 2 1 2 1 2 1 2 1 2\r\n" + 
-			"2 1 2 1 2 1 2 1 2 1";
 }
